@@ -5,9 +5,9 @@ def CreateWallet(len=1024):
 	public_key=str(key_pair.publickey().exportKey())
 	private_key=str(key_pair.exportKey())
 	public_key,private_key=StripHeaders(public_key,private_key)
-	public_key_dict={'n':key_pair.n,'e':key_pair.e}
-	private_key_dict={'n':key_pair.n,'d':key_pair.d}
-	return [private_key,public_key,private_key_dict,public_key_dict]
+	public_key={'key':public_key,'n':key_pair.n,'e':key_pair.e}
+	private_key={'key':private_key,'n':key_pair.n,'d':key_pair.d}
+	return [private_key,public_key]
 
 def StripHeaders(public_key,private_key):
 	HEADER_PUB_KEY='-----BEGIN PUBLIC KEY-----'
