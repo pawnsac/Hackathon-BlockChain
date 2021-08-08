@@ -1,16 +1,21 @@
 import time
 from Transaction import Transaction
 from hashing import VerifySignature, SignString
+import pickle
+import subprocess
+from wallet import *
+
 #Blockchain for transaction ledger
 class Blockchain: 
     def __init__(self):
         self.unconfirmed_transactions = []
         self.valid_chain = []
         self.create_genesis_block()
-        self.difficulty = 5
+        self.difficulty = 1
+        self.wallets=[]
  
     def create_genesis_block(self):
-        genesis_block = Transaction(0,'', '','', 0,time.time(), "0")
+        genesis_block = Transaction(0,'', '','','', 0,'',time.time(), "0")
         genesis_block.hash = genesis_block.compute_hash()
         self.valid_chain.append(genesis_block)
 
@@ -50,9 +55,40 @@ class Blockchain:
         trans = self.unconfirmed_transactions[0]
         if not VerifySignature(trans[2],trans[4],trans[1]):
             return False
-        new_block = Transaction(index=last_block.index + 1,seller=trans[0],buyer=trans[1],token=trans[2],value=trans[3],signature=trans[4], for_sale=trans[5], timestamp=time.time(),previous_hash=last_block.hash)
-
+        new_block = Transaction(index=last_block.index + 1,seller=trans[0],buyer=trans[1],token=trans[2],value=trans[3],signature=trans[4], for_sale=trans[5], time_stamp=time.time(),previous_hash=last_block.hash)
+        print("Starting Proof of Work")
         proof = self.proof_of_work(new_block)
         self.add_block(new_block, proof)
+        print("A new bock added")
         self.unconfirmed_transactions.pop(0)
         return new_block.index
+    def save_object(self, obj, filename):
+        with open(filename, 'wb') as outp:  # Overwrites any existing file.
+            pickle.dump(obj, outp, pickle.HIGHEST_PROTOCOL)
+    def save_chain(self):
+        for block in self.valid_chain:
+            self.save_object(block,"storage/block_"+str(block.index)+".pkl")
+    def load_chain(self,dir,length):
+        new_chain=[]
+        for block_index in range(length):
+            with open(dir+'/block_{}.pkl'.format(block_index), 'rb') as inp:
+                block = pickle.load(inp)
+                new_chain.append(block)
+
+        self.valid_chain=new_chain
+        print("Blockchain loaded!")
+
+    def print_chain(self):
+        for block in self.valid_chain:
+            print ("***************************")
+            print("Block index # {}".format(block.index))
+            if block.index==0:
+                continue
+            print("Buyer: {}".format(block.buyer['key']) )
+            print("Seller: {}".format(block.seller['key']))
+            print("Token: {}".format(block.token) )
+            print("nonce: {}".format(block.nonce) )
+            print("Hash: {}".format(block.hash) )
+            print("previous_hash: {}".format(block.previous_hash) )
+
+            

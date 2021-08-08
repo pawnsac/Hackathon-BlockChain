@@ -7,6 +7,8 @@ def CreateWallet(len=1024):
 	public_key,private_key=StripHeaders(public_key,private_key)
 	public_key={'key':public_key,'n':key_pair.n,'e':key_pair.e}
 	private_key={'key':private_key,'n':key_pair.n,'d':key_pair.d}
+	print("Private Key:",private_key)
+	print("Public Key:",public_key)
 	return [private_key,public_key]
 
 def StripHeaders(public_key,private_key):
