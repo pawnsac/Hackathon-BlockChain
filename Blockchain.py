@@ -107,7 +107,6 @@ class Blockchain:
             print("Token: {}".format(block.token) )
             print("For_sale (1 for true, 0 for false): {}".format(block.for_sale) )
             print("nonce: {}".format(block.nonce) )
-            print("Hash: {}".format(block.hash) )
             print("previous_hash: {}".format(block.previous_hash) )
             print ("***************************")
             print("")
