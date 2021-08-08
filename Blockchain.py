@@ -11,7 +11,7 @@ class Blockchain:
         self.unconfirmed_transactions = []
         self.valid_chain = []
         self.create_genesis_block()
-        self.difficulty = 1
+        self.difficulty = 3
         self.wallets=[]
  
     def create_genesis_block(self):
@@ -80,7 +80,7 @@ class Blockchain:
         
             self.valid_chain=new_chain
 
-            print("Blockchain loaded!")
+            print("Blockchain loaded from 'storage' dir!")
         else:
             print ("Blockchain corrupt, not added!")
     def check_inconsistencies(self,chain):

@@ -45,7 +45,7 @@ while True:
 	elif args=="save":
 		Chain.save_chain()
 	elif args=="load":
-		DIR=input("Dir of blockchain: ")
+		DIR='storage'
 		length=len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
 		Chain.load_chain(DIR,length)
 	elif args=="print":
