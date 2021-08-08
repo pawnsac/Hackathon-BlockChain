@@ -17,12 +17,22 @@ def get_marketplace(blochchain):
     ItemList=[]
     Items=[]
     NotForSale=[]
-    for block in reverse(blochchain):
-        if block.for_sale==True and block not in NotForSale:
+    print("Items for sale listed below:")
+    for block in reversed(blochchain):
+
+        if block.for_sale and block not in NotForSale:
             ItemList.append({"Seller" : block.buyer, "Token" : block.token})
+            print("**************************")
+            print("Seller: ", block.buyer)
+            print("Token: ", block.token)
+            print("**************************")
+            print ("")
             Items.append(block)
-        elif block.for_sale==False and block not in Items and block not in NotForSale:
+        elif block.for_sale and block not in Items and block not in NotForSale:
             NotForSale.append(block)
+    if len(ItemList) ==0:
+        print("Empty market")
+    
     return ItemList
 
 

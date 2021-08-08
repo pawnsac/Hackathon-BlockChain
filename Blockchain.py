@@ -68,6 +68,7 @@ class Blockchain:
     def save_chain(self):
         for block in self.valid_chain:
             self.save_object(block,"storage/block_"+str(block.index)+".pkl")
+        print("Blockchain saved in directory 'storage'")
     def load_chain(self,dir,length):
         new_chain=[]
         for block_index in range(length):
@@ -75,20 +76,40 @@ class Blockchain:
                 block = pickle.load(inp)
                 new_chain.append(block)
 
-        self.valid_chain=new_chain
-        print("Blockchain loaded!")
+        if self.check_inconsistencies(new_chain):
+        
+            self.valid_chain=new_chain
+
+            print("Blockchain loaded!")
+        else:
+            print ("Blockchain corrupt, not added!")
+    def check_inconsistencies(self,chain):
+        i=0
+        previous_hash=''
+        for block in chain:
+            if i==0:
+                continue
+            if not block.previous_hash==previous_hash:
+                return False
+            previous_hash=block.hash
+            i+=1
+        return True
 
     def print_chain(self):
         for block in self.valid_chain:
             print ("***************************")
             print("Block index # {}".format(block.index))
             if block.index==0:
+                print ("Genesis Block")
                 continue
             print("Buyer: {}".format(block.buyer['key']) )
             print("Seller: {}".format(block.seller['key']))
             print("Token: {}".format(block.token) )
+            print("For_sale (1 for true, 0 for false): {}".format(block.for_sale) )
             print("nonce: {}".format(block.nonce) )
             print("Hash: {}".format(block.hash) )
             print("previous_hash: {}".format(block.previous_hash) )
+            print ("***************************")
+            print("")
 
             

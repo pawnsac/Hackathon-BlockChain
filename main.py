@@ -4,7 +4,6 @@ from hashing import *
 from nft import *
 from wallet import*
 import os, os.path
-
 print ("Type add for adding_transactions")
 print ("Type mine for mining_transactions")
 print ("Type print for printing_blockchain")
@@ -12,7 +11,8 @@ print ("Type load for loading_blockchain")
 print ("Type save for saving_blockchain")
 print ("Type new_wallet for creating a wallet")
 print ("Type market for viewing NFT market")
-
+print ("Type broadcast for sending blockchain")
+print ("Type img_token for getting token of NFT")
 Chain=Blockchain()
 
 while True:
@@ -52,6 +52,12 @@ while True:
 		Chain.print_chain()
 	elif args=="new_wallet":
 		CreateWallet()
+	elif args=="market":
+		get_marketplace(Chain.valid_chain)
+	elif args=="img_token":
+		file=input("Enter img dir: ")
+		token=hash_image(file)
+		print("Token: ", token)
 	else:
 		print("Invalid Arguments")
 	
