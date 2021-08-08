@@ -1,6 +1,6 @@
 import time
 from Transaction import Transaction
-
+from hashing import VerifySignature, SignString
 #Blockchain for transaction ledger
 class Blockchain: 
     def __init__(self):
@@ -38,19 +38,19 @@ class Blockchain:
  
     def is_valid_proof(self, block, block_hash):
         return (block_hash.startswith('0' * self.difficulty) and
-            block_hash == block.compute_hash())
+            block_hash == block.compute_hash()) and VerifySignature(block.token,block.signature,block.buyer)
 
-    def add_new_transaction(self, seller, buyer,token,value):
-        self.unconfirmed_transactions.append([seller,buyer,token,value])
+    def add_new_transaction(self, seller, buyer,token,value,signature,for_sale):
+        self.unconfirmed_transactions.append([seller,buyer,token,value,signature,for_sale])
     
     def mine(self):
         if not self.unconfirmed_transactions:
             return False
-
         last_block = self.last_block
         trans = self.unconfirmed_transactions[0]
-
-        new_block = Transaction(index=last_block.index + 1,seller=trans[0],buyer=trans[1],token=trans[2],value=trans[3],timestamp=time.time(),previous_hash=last_block.hash)
+        if not VerifySignature(trans[2],trans[4],trans[1]):
+            return False
+        new_block = Transaction(index=last_block.index + 1,seller=trans[0],buyer=trans[1],token=trans[2],value=trans[3],signature=trans[4], for_sale=trans[5], timestamp=time.time(),previous_hash=last_block.hash)
 
         proof = self.proof_of_work(new_block)
         self.add_block(new_block, proof)
