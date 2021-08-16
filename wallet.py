@@ -11,7 +11,7 @@ def CreateWallet(len=1024):
 	print("")
 	print("Public Key:",public_key)
 	return [private_key,public_key]
-
+	
 def StripHeaders(public_key,private_key):
 	HEADER_PUB_KEY='-----BEGIN PUBLIC KEY-----'
 	HEADER_PUB_KEY_END='-----END PUBLIC KEY-----'
