@@ -7,6 +7,3 @@ This repository contains a proof-of-concept NFT (Non-Fungible Token) marketplace
 - **Blockchain Network**: Many blockchain components such as ledger are built from scratch by using python off-the-shelf libraries.
 - **NFT Creation and Trading**: Users can mint their NFTs and list them in the marketplace for trading.
 
-Video Demonstration of the code working.
-
-<a href="https://youtu.be/8fCrliypD7w" target="_blank"><img src="https://img.youtube.com/vi/8fCrliypD7w/maxresdefault.jpg" alt="IMAGE ALT TEXT HERE" width="960" height="720" border="10" />
